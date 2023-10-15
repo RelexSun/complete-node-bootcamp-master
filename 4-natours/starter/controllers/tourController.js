@@ -1,8 +1,10 @@
 const fs = require('fs');
 
 const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
+  fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
 );
+
+// This is middleware, used for cheking whether or not the tour data contains id, price, name and more.
 
 exports.checkID = (req, res, next, val) => {
   console.log(`Tour id is: ${val}`); // val holds tour
@@ -10,6 +12,16 @@ exports.checkID = (req, res, next, val) => {
     return res.status(404).json({
       status: 'error',
       message: 'Tour not found',
+    });
+  }
+  next();
+};
+
+exports.checkBody = (req, res, next) => {
+  if (!req.body.name || !req.body.price) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'Name and price are required',
     });
   }
   next();
@@ -59,7 +71,7 @@ exports.createTour = (req, res) => {
           tour: newTour,
         },
       });
-    }
+    },
   );
 };
 
