@@ -4,7 +4,7 @@ const tourController = require('../controllers/tourController');
 // or we can use this const {getAllTours, createTour...} = require('./../controllers/tourController');
 
 const router = express.Router(); // middleware
-router.param('id', tourController.checkID);
+// router.param('id', tourController.checkID);
 
 // 3) ROUTES responding to url parameters
 // Create a checkBody middleware
