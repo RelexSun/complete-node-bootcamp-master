@@ -15,7 +15,7 @@ const router = express.Router(); // middleware
 router
   .route('/') // for no id
   .get(tourController.getAllTours)
-  .post(tourController.checkBody, tourController.createTour);
+  .post(tourController.createTour);
 router
   .route('/:id') // with id
   .get(tourController.getTour)
