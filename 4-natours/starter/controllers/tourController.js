@@ -1,4 +1,4 @@
-const Tour = require('./../models/tourModels');
+const Tour = require('../models/tourModels');
 
 // This is middleware, used for cheking whether or not the tour data contains id, price, name and more.
 
@@ -14,6 +14,7 @@ const Tour = require('./../models/tourModels');
 
 // 2) ROUTE HANDLER refactore routes
 exports.getAllTours = async (req, res) => {
+  console.log('hello');
   try {
     console.log(req.query);
 
@@ -69,6 +70,7 @@ exports.getAllTours = async (req, res) => {
 
     // Execute query
     const tours = await query;
+    console.log(tours);
 
     // send response
     res.status(200).json({
