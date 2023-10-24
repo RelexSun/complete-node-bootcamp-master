@@ -14,7 +14,6 @@ const Tour = require('../models/tourModels');
 
 // 2) ROUTE HANDLER refactore routes
 exports.getAllTours = async (req, res) => {
-  console.log('hello');
   try {
     console.log(req.query);
 
@@ -22,6 +21,7 @@ exports.getAllTours = async (req, res) => {
     // 1A. Filtering
     const queryObj = { ...req.query };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
+
     excludedFields.forEach((el) => delete queryObj[el]);
 
     // 1B. Advanced filtering
@@ -31,9 +31,13 @@ exports.getAllTours = async (req, res) => {
     let query = await Tour.find(JSON.parse(queryStr));
 
     // 2 Sorting
+
     if (req.query.sort) {
       const sortBy = req.query.sort.split(',').join(' ');
       query = query.sort(sortBy);
+      console.log('req.query.sort:', req.query.sort);
+      console.log('sortBy:', sortBy);
+
       // sort ('price ratingsAverage')
     } else {
       query = query.sort('-createdAt');
@@ -50,7 +54,7 @@ exports.getAllTours = async (req, res) => {
     // { difficulty: 'easy', duration: { gte: '5' } }
     // gte, gt, lte, lt
 
-    // const tours = await Tour.find()
+    // const tours = await Tour.find();
     //   .where('duration')
     //   .equals(5)
     //   .where('difficulty')
@@ -81,6 +85,7 @@ exports.getAllTours = async (req, res) => {
       },
     });
   } catch (err) {
+    console.log(err);
     res.status(404).json({
       status: 'fail',
       message: err,
