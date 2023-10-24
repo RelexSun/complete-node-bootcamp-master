@@ -1,5 +1,12 @@
 const Tour = require('../models/tourModels');
 
+exports.aliasTopTours = (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-ratingsAverage,priceAverage';
+  req.query.fields = 'name.price,ratingsAverage,summary,difficulty';
+  next();
+};
+
 // This is middleware, used for cheking whether or not the tour data contains id, price, name and more.
 
 // exports.checkBody = (req, res, next) => {
@@ -26,9 +33,9 @@ exports.getAllTours = async (req, res) => {
 
     // 1B. Advanced filtering
     let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `${match}`);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-    let query = await Tour.find(JSON.parse(queryStr));
+    let query = Tour.find(JSON.parse(queryStr));
 
     // 2 Sorting
 
@@ -69,12 +76,11 @@ exports.getAllTours = async (req, res) => {
 
     if (req.query.page) {
       const numTours = await Tour.countDocuments();
-      if (skip > numTours) throw new Error('This page does not exist');
+      if (skip >= numTours) throw new Error('This page does not exist');
     }
 
     // Execute query
     const tours = await query;
-    console.log(tours);
 
     // send response
     res.status(200).json({
@@ -85,7 +91,6 @@ exports.getAllTours = async (req, res) => {
       },
     });
   } catch (err) {
-    console.log(err);
     res.status(404).json({
       status: 'fail',
       message: err,

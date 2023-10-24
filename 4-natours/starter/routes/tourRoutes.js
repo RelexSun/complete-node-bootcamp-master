@@ -13,6 +13,10 @@ const router = express.Router(); // middleware
 // Add it to the post handler stack
 
 router
+  .route('/top-5-cheap')
+  .get(tourController.aliasTopTours, tourController.getAllTours);
+
+router
   .route('/') // for no id
   .get(tourController.getAllTours)
   .post(tourController.createTour);
