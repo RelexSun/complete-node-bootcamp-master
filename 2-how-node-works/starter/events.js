@@ -9,6 +9,7 @@ class Sales extends EventEmitter {
 
 const myEmitter = new Sales();
 
+// ----- Register a listener -----
 myEmitter.on("newSale", () => {
   console.log("There was a new sale!");
 });
@@ -21,6 +22,7 @@ myEmitter.on("newSale", (stock) => {
   console.log(`There are now ${stock} items left in stock.`);
 });
 
+// ----- Raise an event -------
 myEmitter.emit("newSale", 9);
 
 // ----------------------------------------------------------------
