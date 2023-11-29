@@ -42,6 +42,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id);
   // Tour.findOne({ _id: req.params.id })
 
+  // Adding 404 Not Found Errors (only for routes that need id)
   if (!tour) {
     return next(new AppError('No tour found with that ID', 404));
   }
@@ -90,6 +91,7 @@ exports.updateTour = catchAsync(async (req, res, next) => {
     runValidators: true
   });
 
+  // Adding 404 Not Found Errors (only for routes that need id)
   if (!tour) {
     return next(new AppError('No tour found with that ID', 404));
   }
@@ -119,6 +121,7 @@ exports.deleteTour = catchAsync(async (req, res, next) => {
     data: null
   });
 
+  // Adding 404 Not Found Errors (only for routes that need id)
   if (!tour) {
     return next(new AppError('No tour found with that ID', 404));
   }
