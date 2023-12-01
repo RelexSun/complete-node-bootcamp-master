@@ -35,7 +35,8 @@ const userSchema = new Schema({
       },
       message: 'Password are not the same'
     }
-  }
+  },
+  passwordChangedAt: Date
 });
 
 // Pre middleware functions are executed one after another, when each middleware calls next.
@@ -57,6 +58,13 @@ userSchema.methods.correctPassword = async function(
   userPassword
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    console.log(this.passwordChangedAt);
+  }
+  return false;
 };
 
 module.exports = model('User', userSchema);
