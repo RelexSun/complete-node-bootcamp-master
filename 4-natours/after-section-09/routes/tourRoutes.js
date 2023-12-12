@@ -1,10 +1,23 @@
 const express = require('express');
 const tourController = require('../controllers/tourController');
 const authController = require('../controllers/authController');
+const reviewRouter = require('./reviewRoutes');
 
 const router = express.Router();
 
 // router.param('id', tourController.checkID);
+
+// router
+//   .route('/:tourId/reviews')
+//   .post(
+//     authController.protect,
+//     authController.restrictTo('users'),
+//     reviewController.createReview
+//   );
+
+// TODO: merging parameters
+// ex. POST /tour/12i3yi23/review/qwketwkej
+router.use('/:tourId/reviews', reviewRouter);
 
 router
   .route('/top-5-cheap')
